@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 
 import '../providers/plano_provider.dart';
 import '../widgets/dia_card.dart';
+import '../widgets/plano_formulario.dart';
 import '../widgets/progresso_header.dart';
 import 'criar_plano_screen.dart';
 
@@ -20,12 +21,22 @@ class HomeScreen extends StatelessWidget {
               if (!provider.temPlanoAtivo) return const SizedBox.shrink();
               return IconButton(
                 tooltip: 'Reiniciar plano',
-                icon: const Icon(Icons.refresh),
+                icon: const Icon(Icons.restart_alt),
                 onPressed: () => _confirmarReinicio(context, provider),
               );
             },
           ),
         ],
+      ),
+      floatingActionButton: Consumer<PlanoProvider>(
+        builder: (context, provider, _) {
+          if (!provider.temPlanoAtivo) return const SizedBox.shrink();
+          return FloatingActionButton.extended(
+            onPressed: () => _abrirSimulador(context),
+            icon: const Icon(Icons.calculate_outlined),
+            label: const Text('Simular plano'),
+          );
+        },
       ),
       body: Consumer<PlanoProvider>(
         builder: (context, provider, _) {
@@ -46,12 +57,12 @@ class HomeScreen extends StatelessWidget {
               ),
               Expanded(
                 child: GridView.builder(
-                  padding: const EdgeInsets.all(16),
+                  padding: const EdgeInsets.fromLTRB(16, 20, 16, 96),
                   gridDelegate:
                       const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 3,
-                    mainAxisSpacing: 12,
-                    crossAxisSpacing: 12,
+                    crossAxisCount: 4,
+                    mainAxisSpacing: 14,
+                    crossAxisSpacing: 10,
                     childAspectRatio: 1,
                   ),
                   itemCount: provider.dias.length,
@@ -67,6 +78,55 @@ class HomeScreen extends StatelessWidget {
             ],
           );
         },
+      ),
+    );
+  }
+
+  /// Abre um formulário de simulação num bottom sheet. É o mesmo
+  /// PlanoFormulario usado pra criar o plano de verdade, mas aqui
+  /// o "onConfirmar" só fecha a folha — nada é salvo, então o plano
+  /// ativo do usuário não é afetado.
+  void _abrirSimulador(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
+      ),
+      builder: (sheetContext) => DraggableScrollableSheet(
+        expand: false,
+        initialChildSize: 0.9,
+        minChildSize: 0.5,
+        maxChildSize: 0.95,
+        builder: (context, scrollController) => SingleChildScrollView(
+          controller: scrollController,
+          padding: const EdgeInsets.fromLTRB(24, 12, 24, 24),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Center(
+                child: Container(
+                  width: 40,
+                  height: 4,
+                  margin: const EdgeInsets.only(bottom: 20),
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).colorScheme.outlineVariant,
+                    borderRadius: BorderRadius.circular(4),
+                  ),
+                ),
+              ),
+              PlanoFormulario(
+                icone: Icons.calculate_outlined,
+                titulo: 'Simular um plano',
+                subtitulo: 'Veja a meta de um plano hipotético sem mexer '
+                    'no seu plano atual.',
+                textoBotao: 'Fechar simulação',
+                onConfirmar: (_, __, ___) async =>
+                    Navigator.pop(sheetContext),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }

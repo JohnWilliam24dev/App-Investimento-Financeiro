@@ -14,43 +14,71 @@ class DiaCard extends StatelessWidget {
     final concluido = dia.concluido;
     final cores = Theme.of(context).colorScheme;
 
-    return Material(
-      color: concluido ? cores.primary : cores.surfaceContainerHighest,
-      borderRadius: BorderRadius.circular(16),
-      child: InkWell(
-        borderRadius: BorderRadius.circular(16),
-        onTap: onTap,
-        child: Padding(
-          padding: const EdgeInsets.all(8),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                'Dia ${dia.numeroDia}',
-                style: TextStyle(
-                  fontSize: 12,
-                  color: concluido
-                      ? cores.onPrimary.withValues(alpha: 0.85)
-                      : cores.onSurfaceVariant,
+    return InkWell(
+      customBorder: const CircleBorder(),
+      onTap: onTap,
+      child: Stack(
+        alignment: Alignment.center,
+        children: [
+          AnimatedContainer(
+            duration: const Duration(milliseconds: 180),
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: concluido ? cores.primary : cores.surfaceContainerHighest,
+              boxShadow: concluido
+                  ? [
+                      BoxShadow(
+                        color: cores.primary.withValues(alpha: 0.35),
+                        blurRadius: 8,
+                        offset: const Offset(0, 3),
+                      ),
+                    ]
+                  : null,
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(6),
+              child: FittedBox(
+                fit: BoxFit.scaleDown,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      '${dia.numeroDia}',
+                      style: TextStyle(
+                        fontSize: 11,
+                        fontWeight: FontWeight.w500,
+                        color: concluido
+                            ? cores.onPrimary.withValues(alpha: 0.85)
+                            : cores.onSurfaceVariant,
+                      ),
+                    ),
+                    Text(
+                      formatarMoedaCompacta(dia.valor),
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 14,
+                        color: concluido ? cores.onPrimary : cores.onSurface,
+                      ),
+                    ),
+                  ],
                 ),
               ),
-              const SizedBox(height: 4),
-              Text(
-                formatarMoeda(dia.valor),
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 13,
-                  color: concluido ? cores.onPrimary : cores.onSurface,
-                ),
-              ),
-              if (concluido) ...[
-                const SizedBox(height: 4),
-                Icon(Icons.check_circle, size: 16, color: cores.onPrimary),
-              ],
-            ],
+            ),
           ),
-        ),
+          if (concluido)
+            Positioned(
+              bottom: 0,
+              right: 0,
+              child: Container(
+                padding: const EdgeInsets.all(2),
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: cores.onPrimary,
+                ),
+                child: Icon(Icons.check, size: 10, color: cores.primary),
+              ),
+            ),
+        ],
       ),
     );
   }

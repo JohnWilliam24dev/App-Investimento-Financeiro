@@ -1,3 +1,5 @@
+import 'dart:math' as math;
+
 /// Representa a "tabela de investimento" configurada pelo usuário:
 /// quanto guardar no primeiro dia, quanto aumenta a cada dia, e por
 /// quantos dias o desafio vai.
@@ -52,4 +54,39 @@ class Plano {
         totalDias: totalDias,
         dataCriacao: dataCriacao,
       );
+
+  /// Calcula quantos dias são necessários pra chegar o mais perto possível
+  /// de [metaDesejada], dado um valor inicial e incremento fixos.
+  ///
+  /// Resolve a progressão aritmética ao contrário: como
+  /// `S = n/2 * (2a + (n-1)d)`, isolando n temos uma equação do 2º grau
+  /// `d*n² + (2a-d)*n - 2S = 0`, resolvida pela fórmula de Bhaskara.
+  ///
+  /// Como o número de dias precisa ser inteiro, o resultado é arredondado
+  /// pro inteiro mais próximo (pra cima ou pra baixo) — por isso a meta
+  /// final pode ficar um pouco acima ou abaixo do valor pedido. Sempre
+  /// recalcule a meta real com o total de dias retornado aqui.
+  static int diasParaAtingirMeta({
+    required double valorInicial,
+    required double incremento,
+    required double metaDesejada,
+  }) {
+    if (metaDesejada <= 0) return 0;
+
+    double n;
+    if (incremento == 0) {
+      if (valorInicial <= 0) return 0;
+      n = metaDesejada / valorInicial;
+    } else {
+      final a = incremento;
+      final b = 2 * valorInicial - incremento;
+      final c = -2 * metaDesejada;
+      final delta = b * b - 4 * a * c;
+      if (delta < 0) return 0;
+      n = (-b + math.sqrt(delta)) / (2 * a);
+    }
+
+    final diasArredondado = n.round();
+    return diasArredondado < 1 ? 1 : diasArredondado;
+  }
 }

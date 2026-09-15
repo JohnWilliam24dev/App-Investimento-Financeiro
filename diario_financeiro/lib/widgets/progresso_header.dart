@@ -27,6 +27,13 @@ class ProgressoHeader extends StatelessWidget {
           bottomLeft: Radius.circular(28),
           bottomRight: Radius.circular(28),
         ),
+        boxShadow: [
+          BoxShadow(
+            color: cores.primary.withValues(alpha: 0.25),
+            blurRadius: 16,
+            offset: const Offset(0, 6),
+          ),
+        ],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
