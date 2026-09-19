@@ -15,9 +15,10 @@ class CriarPlanoScreen extends StatelessWidget {
       child: PlanoFormulario(
         icone: Icons.savings_outlined,
         titulo: 'Crie seu plano de investimento',
-        subtitulo:
-            'É dia 1 = R\$1, dia 2 = R\$2, e assim por diante. Diz só quanto '
-            'você quer alcançar que a gente calcula os dias.',
+        subtitulo: 'O desafio segue a progressão: dia 1 = R\$1, dia 2 = '
+            'R\$2, e assim sucessivamente. Informe a meta que deseja '
+            'alcançar e o aplicativo calculará automaticamente a duração '
+            'do plano.',
         textoBotao: 'Começar',
         onConfirmar: (valorInicial, incremento, totalDias) =>
             context.read<PlanoProvider>().criarPlano(
