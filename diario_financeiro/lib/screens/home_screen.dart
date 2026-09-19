@@ -14,7 +14,7 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Diário Financeiro'),
+        title: const Text('Controle de Poupança'),
         actions: [
           Consumer<PlanoProvider>(
             builder: (context, provider, _) {

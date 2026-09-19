@@ -1,6 +1,6 @@
 {
-    "name": "diario_financeiro",
-    "short_name": "diario_financeiro",
+    "name": "Controle de Poupança",
+    "short_name": "Poupança",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

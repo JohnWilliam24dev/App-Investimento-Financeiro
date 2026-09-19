@@ -1,6 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
     <application
-        android:label="diario_financeiro"
+        android:label="Controle de Poupança"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

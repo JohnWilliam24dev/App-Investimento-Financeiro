@@ -17,7 +17,7 @@ class DiarioFinanceiroApp extends StatelessWidget {
     return ChangeNotifierProvider(
       create: (_) => PlanoProvider()..carregar(),
       child: MaterialApp(
-        title: 'Diário Financeiro',
+        title: 'Controle de Poupança',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
           useMaterial3: true,
