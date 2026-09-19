@@ -16,8 +16,8 @@ class CriarPlanoScreen extends StatelessWidget {
         icone: Icons.savings_outlined,
         titulo: 'Crie seu plano de investimento',
         subtitulo:
-            'Defina o valor do primeiro dia, quanto aumenta por dia, e '
-            'escolha se prefere informar a duração ou a meta que quer bater.',
+            'É dia 1 = R\$1, dia 2 = R\$2, e assim por diante. Diz só quanto '
+            'você quer alcançar que a gente calcula os dias.',
         textoBotao: 'Começar',
         onConfirmar: (valorInicial, incremento, totalDias) =>
             context.read<PlanoProvider>().criarPlano(

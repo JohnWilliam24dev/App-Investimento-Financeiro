@@ -118,8 +118,8 @@ class HomeScreen extends StatelessWidget {
               PlanoFormulario(
                 icone: Icons.calculate_outlined,
                 titulo: 'Simular um plano',
-                subtitulo: 'Veja a meta de um plano hipotético sem mexer '
-                    'no seu plano atual.',
+                subtitulo: 'Veja quantos dias esse desafio levaria pra uma '
+                    'meta diferente, sem mexer no seu plano atual.',
                 textoBotao: 'Fechar simulação',
                 onConfirmar: (_, __, ___) async =>
                     Navigator.pop(sheetContext),
